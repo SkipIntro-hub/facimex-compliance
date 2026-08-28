@@ -1,0 +1,1345 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MatchFin · Compliance Dashboard · Facimex</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Custom scrollbar for cards */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: var(--muted-foreground);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 antialiased font-sans min-h-screen flex flex-col" style="--background: #0f172a; --card: #1e293b; --border: #334155; --primary: #3b82f6; --primary-foreground: #ffffff; --sidebar: #0f172a; --foreground: #f8fafc; --muted-foreground: #94a3b8;">
+
+  <!-- TOP BAR -->
+  <header class="border-b border-[var(--border)] bg-[var(--card)] px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg p-2 font-bold tracking-wider text-sm shadow-sm">
+        MF
+      </div>
+      <div>
+        <h1 class="text-lg font-bold tracking-tight text-[var(--foreground)]">MatchFin <span class="text-[var(--muted-foreground)] font-normal">/ Módulo Compliance</span></h1>
+        <p class="text-xs text-[var(--muted-foreground)]">Relevamiento & Framework Operativo · Facimex / PISA</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 text-xs">
+      <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse"></span>
+        8 Bloqueantes Activos
+      </div>
+      <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 font-medium">
+        <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+        8 Tensiones Abiertas
+      </div>
+      <div class="text-[var(--muted-foreground)] px-2.5 py-1 border border-[var(--border)] rounded-md bg-[var(--background)]">
+        Reunión: 27/08/2026
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="flex-1 flex flex-col md:flex-row">
+    
+    <!-- SIDEBAR NAVIGATION -->
+    <aside class="w-full md:w-64 border-r border-[var(--border)] bg-[var(--sidebar)] p-4 flex flex-col gap-1.5">
+      <p class="px-3 text-[10px] font-semibold tracking-wider text-[var(--muted-foreground)] uppercase mb-2">Navegación</p>
+      
+      <button onclick="switchTab('tab-dashboard')" id="btn-tab-dashboard" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--primary)] bg-[var(--primary)]/10">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+        </svg>
+        Resumen y Capacidades
+      </button>
+
+      <button onclick="switchTab('tab-verticals')" id="btn-tab-verticals" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+        </svg>
+        Línea de Vida (Procesos)
+      </button>
+
+      <button onclick="switchTab('tab-integration')" id="btn-tab-integration" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 011-1h3a1 1 0 001-1V4z" />
+        </svg>
+        Integración MatchFin
+      </button>
+
+      <button onclick="switchTab('tab-simulator')" id="btn-tab-simulator" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+        Simulador de Reglas
+      </button>
+
+      <button onclick="switchTab('tab-roadmap')" id="btn-tab-roadmap" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        Roadmap y Backlog
+      </button>
+
+      <button onclick="switchTab('tab-blockers')" id="btn-tab-blockers" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        Bloqueantes & Tensiones
+      </button>
+
+      <button onclick="switchTab('tab-specs')" id="btn-tab-specs" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        </svg>
+        Framework de Specs
+      </button>
+
+      <div class="mt-auto pt-4 border-t border-[var(--border)] text-[10px] text-[var(--muted-foreground)] flex flex-col gap-1">
+        <div><strong>Facimex ALyC</strong></div>
+        <div>Equipo MatchFin</div>
+        <div>v2.0 (Agosto 2026)</div>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <main class="flex-1 p-6 overflow-y-auto bg-[var(--background)] max-w-7xl mx-auto w-full">
+
+      <!-- ============================================== -->
+      <!-- TAB 1: EXECUTIVE SUMMARY & CAPABILITIES -->
+      <!-- ============================================== -->
+      <section id="tab-dashboard" class="tab-content flex flex-col gap-6">
+        
+        <!-- INTRO CARD -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+          <h2 class="text-xl font-bold mb-2">Modernización Integral de Compliance</h2>
+          <p class="text-sm text-[var(--muted-foreground)] max-w-3xl mb-4">
+            Este módulo no digitaliza el flujo actual, sino que lo rediseña para lograr eficiencia comercial y solidez regulatoria. Se apoya en el núcleo de la plataforma <strong>MatchFin</strong> y el <strong>Pre-Trade Log (PTL)</strong> previamente construidos.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+            <div class="bg-[var(--background)] border border-[var(--border)] p-4 rounded-lg">
+              <span class="text-xs text-[var(--muted-foreground)] block">Principio Rector</span>
+              <span class="text-sm font-semibold mt-1 block">Rediseñar, no automatizar el desorden</span>
+            </div>
+            <div class="bg-[var(--background)] border border-[var(--border)] p-4 rounded-lg">
+              <span class="text-xs text-[var(--muted-foreground)] block">Premisa Operativa</span>
+              <span class="text-sm font-semibold mt-1 block">Foco en origen de fondos y riesgo</span>
+            </div>
+            <div class="bg-[var(--background)] border border-[var(--border)] p-4 rounded-lg">
+              <span class="text-xs text-[var(--muted-foreground)] block">Propuesta Clave</span>
+              <span class="text-sm font-semibold mt-1 block">Onboarding Escalonado por Monto</span>
+            </div>
+            <div class="bg-[var(--background)] border border-[var(--border)] p-4 rounded-lg">
+              <span class="text-xs text-[var(--muted-foreground)] block">Infraestructura Base</span>
+              <span class="text-sm font-semibold mt-1 block">Datos desagregados al nivel CUIT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAPABILITIES MATRIX -->
+        <div>
+          <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+            <span>Matriz de 10 Capacidades Operativas (C1 - C10)</span>
+            <span class="text-xs font-normal text-[var(--muted-foreground)]">(Gobernanza y Workflow)</span>
+          </h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            <!-- C1 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">C1</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Núcleo</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Núcleo de Datos Desagregados</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Desmenuzar la información del cliente hasta el nivel del CUIT para posibilitar nexos automáticos ante normativas cambiantes.</p>
+            </div>
+
+            <!-- C2 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">C2</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Motor</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Motor de Reglas y Parámetros</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Separa la regla estable (espíritu de la norma) del parámetro variable editable sin deploy, parametrizado por entidad_id.</p>
+            </div>
+
+            <!-- C3 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/10 text-blue-500 border border-blue-500/20">C3</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Onboarding</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Ingesta Documental Inteligente</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Carga y extracción automática mediante IA (checklist finito de preguntas societarias) con trazabilidad al documento origen.</p>
+            </div>
+
+            <!-- C4 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">C4</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Onboarding</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Onboarding Escalonado</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Apertura única con diligencia escalonada y progresiva por montos operativos. Firma de extractos en vez de 15 hojas.</p>
+            </div>
+
+            <!-- C5 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-500 border border-purple-500/20">C5</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Screening</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Screening & Monitoring Consolidado</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Control contra RePET, PEP, OFAC, Worldsys, causa PJN y Nosis sobre clientes, prospectos o no-clientes mediante CUIT.</p>
+            </div>
+
+            <!-- C6 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-red-500/10 text-red-500 border border-red-500/20">C6</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Pre-Trade</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Pre-Trade Auditor (Cerco Invisible)</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Detección y bloqueo preoperatorio automático en base a 4 preguntas (Qué, Cuánto, Quién, Canal) y gestión de override.</p>
+            </div>
+
+            <!-- C7 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/10 text-purple-500 border border-purple-500/20">C7</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Monitoreo</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Hub de Alertas y Conducta</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Alertas avanzadas (churning, rotación indebida de FCI, rulos de comisión) mediante la comprensión del producto.</p>
+            </div>
+
+            <!-- C8 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/10 text-green-500 border border-green-500/20">C8</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Reportería</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Hub de Reportes Regulatorios</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Generación masiva CNV/UIF con proceso espejo automático para "control del control" sin error humano.</p>
+            </div>
+
+            <!-- C9 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-500/10 text-amber-500 border border-amber-500/20">C9</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Integraciones</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Capa de Integraciones Transversal</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Conexión crítica entre MatchFin, Aune, Visual Bolsa y Caja de Valores para sincronización automática.</p>
+            </div>
+
+            <!-- C10 -->
+            <div class="bg-[var(--card)] border border-[var(--border)] p-5 rounded-xl shadow-sm hover:border-[var(--primary)] transition-all">
+              <div class="flex items-center justify-between mb-2">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/10 text-green-500 border border-green-500/20">C10</span>
+                <span class="text-xs text-[var(--muted-foreground)] font-medium">Transparencia</span>
+              </div>
+              <h4 class="font-bold text-sm mb-1 text-[var(--foreground)]">Portal de Transparencia</h4>
+              <p class="text-xs text-[var(--muted-foreground)] line-clamp-2">Despersonaliza la negativa comercial. Muestra al cliente su perfil, cupos y motivos lógicos de bloqueo.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 2: LIFECYCLE & WORKFLOWS -->
+      <!-- ============================================== -->
+      <section id="tab-verticals" class="tab-content hidden flex flex-col gap-6">
+        
+        <div class="border-b border-[var(--border)] flex gap-2 overflow-x-auto custom-scrollbar pb-2">
+          <button onclick="switchVertical('vert-a')" id="btn-vert-a" class="vert-btn flex-1 min-w-[120px] text-center px-4 py-2 rounded-lg text-sm font-semibold bg-[var(--primary)] text-[var(--primary-foreground)] shadow-sm">
+            A. Apertura
+          </button>
+          <button onclick="switchVertical('vert-b')" id="btn-vert-b" class="vert-btn flex-1 min-w-[120px] text-center px-4 py-2 rounded-lg text-sm font-semibold border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+            B. Preoperatorio
+          </button>
+          <button onclick="switchVertical('vert-c')" id="btn-vert-c" class="vert-btn flex-1 min-w-[120px] text-center px-4 py-2 rounded-lg text-sm font-semibold border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+            C. Operatoria
+          </button>
+          <button onclick="switchVertical('vert-d')" id="btn-vert-d" class="vert-btn flex-1 min-w-[120px] text-center px-4 py-2 rounded-lg text-sm font-semibold border border-[var(--border)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
+            D. Postoperatorio
+          </button>
+        </div>
+
+        <!-- VERTICAL A CONTENT -->
+        <div id="vert-a" class="vert-content flex flex-col gap-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- LEFT WORKFLOW VIEW -->
+            <div class="lg:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-bold mb-4">Vertical A: Apertura de Cuenta & Onboarding Escalonado</h3>
+              
+              <!-- COMPARATIVE SLIDE -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-red-500/5 border border-red-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-red-500 uppercase tracking-wider">Proceso Analógico / Actual</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Onboarding tradicional exhaustivo desde el día 1. Firma hológrafa de legajo de 15 hojas que incluye datos no regulatorios (ARCA, inicio de actividades). Se exige el mismo esfuerzo de recopilación tanto para clientes de riesgo bajo como para FCI de alto volumen.
+                  </p>
+                </div>
+                <div class="bg-green-500/5 border border-green-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-green-500 uppercase tracking-wider">Rediseño Digital Propuesto</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    <strong>La apertura es una sola, pero la diligencia se escalona.</strong> Se habilita un nivel operativo inicial con datos mínimos. Al subir la transaccionalidad por encima de los umbrales de monto, se disparan solicitudes automáticas para desbloquear el siguiente nivel operativo.
+                  </p>
+                </div>
+              </div>
+
+              <!-- ESCALONADO INTERACTIVE FLOW -->
+              <div class="border border-[var(--border)] rounded-lg p-5 bg-[var(--background)]">
+                <h4 class="text-sm font-bold mb-4 text-center">Simulación Visual de Niveles de Diligencia</h4>
+                
+                <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                  <!-- Level 1 -->
+                  <div class="w-full md:w-1/3 bg-[var(--card)] border-2 border-[var(--primary)] p-4 rounded-lg text-center relative">
+                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[9px] bg-[var(--primary)] text-[var(--primary-foreground)] rounded-full font-bold">Nivel 1</span>
+                    <h5 class="font-bold text-xs mt-1">Básico (Onboarding)</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">CUIT + Datos Personales + Screening Inicial (RePET)</p>
+                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: Hasta \$10M</div>
+                  </div>
+                  
+                  <!-- Arrow -->
+                  <div class="text-[var(--muted-foreground)] hidden md:block">
+                    <svg class="w-6 h-6 rotate-90 md:rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  </div>
+                  
+                  <!-- Level 2 -->
+                  <div class="w-full md:w-1/3 bg-[var(--card)] border border-[var(--border)] p-4 rounded-lg text-center relative opacity-85">
+                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[9px] bg-[var(--border)] text-[var(--muted-foreground)] rounded-full font-bold">Nivel 2</span>
+                    <h5 class="font-bold text-xs mt-1">Medio (Operativo)</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Legajo Simplificado + Declaraciones Juradas Básicas</p>
+                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: \$10M - \$100M</div>
+                  </div>
+
+                  <!-- Arrow -->
+                  <div class="text-[var(--muted-foreground)] hidden md:block">
+                    <svg class="w-6 h-6 rotate-90 md:rotate-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                  </div>
+
+                  <!-- Level 3 -->
+                  <div class="w-full md:w-1/3 bg-[var(--card)] border border-[var(--border)] p-4 rounded-lg text-center relative opacity-70">
+                    <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[9px] bg-[var(--border)] text-[var(--muted-foreground)] rounded-full font-bold">Nivel 3</span>
+                    <h5 class="font-bold text-xs mt-1">Completo (Diligencia Máxima)</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Estados Contables + Origen de Fondos Certificado</p>
+                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: Sin Límite</div>
+                  </div>
+                </div>
+
+                <div class="mt-4 text-[11px] text-[var(--muted-foreground)] bg-[var(--card)] p-3 border border-[var(--border)] rounded">
+                  <strong>Regla de Transición:</strong> El paso de un nivel a otro se bloquea si el sistema detecta alertas rojas en el screening (Worldsys/OFAC) o si el checklist inteligente del legajo (C3) deja campos mandatorios de ese nivel sin responder.
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT META VIEW -->
+            <div class="lg:col-span-4 flex flex-col gap-6">
+              
+              <!-- CARTERA & VOLUMEN -->
+              <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 shadow-sm">
+                <h4 class="font-bold text-xs tracking-wider uppercase text-[var(--muted-foreground)] mb-3">Ranking de Operatoria (Volumen Facimex)</h4>
+                <ol class="flex flex-col gap-2">
+                  <li class="flex items-center justify-between text-xs border-b border-[var(--border)] pb-1.5">
+                    <span class="font-semibold">1. Fondos Comunes (FCI)</span>
+                    <span class="text-red-500 font-medium">⚠️ No cubiertos por onboarding</span>
+                  </li>
+                  <li class="flex items-center justify-between text-xs border-b border-[var(--border)] pb-1.5">
+                    <span>2. Aseguradoras</span>
+                    <span class="text-[var(--muted-foreground)]">Onboarding Especial</span>
+                  </li>
+                  <li class="flex items-center justify-between text-xs border-b border-[var(--border)] pb-1.5">
+                    <span>3. Corporativo</span>
+                    <span class="text-[var(--muted-foreground)]">Estructuras Complejas</span>
+                  </li>
+                  <li class="flex items-center justify-between text-xs">
+                    <span>4. Retail</span>
+                    <span class="text-green-500 font-medium">✅ Onboarding Funciona</span>
+                  </li>
+                </ol>
+                <div class="mt-3 text-[10px] text-[var(--muted-foreground)] italic">
+                  *Paradoja funcional: el onboarding actual atiende al segmento menor en volumen (retail) y excluye al principal motor transaccional (FCI/Combos Gerente-Custodio).
+                </div>
+              </div>
+
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- VERTICAL B CONTENT -->
+        <div id="vert-b" class="vert-content hidden flex flex-col gap-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-bold mb-4">Vertical B: Control Preoperatorio</h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-red-500/5 border border-red-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-red-500 uppercase tracking-wider">Proceso Actual</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Las operaciones se cursan sin comunicación previa a Compliance. La falta de información al instante genera que el sector se entere del exceso de cupo u otras fallas <strong>después de procesada la transacción</strong>. "Tapar en vez de prevenir".
+                  </p>
+                </div>
+                <div class="bg-green-500/5 border border-green-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-green-500 uppercase tracking-wider">Rediseño Digital (Cerco Invisible)</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Implementación del <strong>Pre-Trade Auditor</strong>. El sistema valida las 4 preguntas en ruteo automático. La transgresión dispara una recolección automática e interrumpe para el dictamen del analista con todos los insumos sobre la mesa.
+                  </p>
+                </div>
+              </div>
+
+              <!-- VISUAL FLOW FOR INVISIBLE FENCE -->
+              <div class="border border-[var(--border)] rounded-lg p-5 bg-[var(--background)]">
+                <h4 class="text-sm font-bold mb-6 text-center">Secuencia del "Cerco Invisible"</h4>
+                
+                <div class="relative flex flex-col md:flex-row items-stretch justify-between gap-2">
+                  <!-- Vertical timeline connecting lines for mobile -->
+                  <div class="absolute left-4 top-0 bottom-0 w-0.5 bg-[var(--border)] md:hidden"></div>
+                  
+                  <!-- Step 1 -->
+                  <div class="flex-1 bg-[var(--card)] border border-[var(--border)] p-3 rounded-lg relative pl-8 md:pl-3">
+                    <span class="absolute left-2 md:left-auto md:top-2 md:right-2 w-5 h-5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs font-bold">1</span>
+                    <h5 class="font-bold text-xs">Preseteo</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Carga de cupos y restricciones por CUIT.</p>
+                  </div>
+                  
+                  <!-- Step 2 -->
+                  <div class="flex-1 bg-[var(--card)] border border-[var(--border)] p-3 rounded-lg relative pl-8 md:pl-3">
+                    <span class="absolute left-2 md:left-auto md:top-2 md:right-2 w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xs font-bold">2</span>
+                    <h5 class="font-bold text-xs text-emerald-500">Zona Verde</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Operaciones normales transcurren sin alertas.</p>
+                  </div>
+
+                  <!-- Step 3 -->
+                  <div class="flex-1 bg-[var(--card)] border border-red-500/30 p-3 rounded-lg relative pl-8 md:pl-3 bg-red-500/[0.02]">
+                    <span class="absolute left-2 md:left-auto md:top-2 md:right-2 w-5 h-5 rounded-full bg-red-500/10 text-red-500 flex items-center justify-center text-xs font-bold">3</span>
+                    <h5 class="font-bold text-xs text-red-500">Transgresión</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Exceso de límites genera alerta en tiempo real.</p>
+                  </div>
+
+                  <!-- Step 4 -->
+                  <div class="flex-1 bg-[var(--card)] border border-[var(--border)] p-3 rounded-lg relative pl-8 md:pl-3">
+                    <span class="absolute left-2 md:left-auto md:top-2 md:right-2 w-5 h-5 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] flex items-center justify-center text-xs font-bold">4</span>
+                    <h5 class="font-bold text-xs">Acción Auto</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Recolección automatizada de requerimientos faltantes.</p>
+                  </div>
+
+                  <!-- Step 5 -->
+                  <div class="flex-1 bg-[var(--card)] border border-amber-500/30 p-3 rounded-lg relative pl-8 md:pl-3 bg-amber-500/[0.02]">
+                    <span class="absolute left-2 md:left-auto md:top-2 md:right-2 w-5 h-5 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center text-xs font-bold">5</span>
+                    <h5 class="font-bold text-xs text-amber-500">Humano</h5>
+                    <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Compliance decide con el balance y datos listos.</p>
+                  </div>
+                </div>
+
+                <div class="mt-4 text-[10px] text-[var(--muted-foreground)] text-center font-medium">
+                  R5: El humano entra en el paso posterior a la contingencia, no a recolectar documentos.
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 flex flex-col gap-6">
+              
+              <!-- LAS 4 PREGUNTAS -->
+              <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 shadow-sm">
+                <h4 class="font-bold text-xs tracking-wider uppercase text-[var(--muted-foreground)] mb-3">Las 4 Preguntas de Control Pre-Trade</h4>
+                <ul class="flex flex-col gap-2.5">
+                  <li class="text-xs">
+                    <span class="font-semibold block text-[var(--foreground)]">1. ¿Qué se opera?</span>
+                    <span class="text-[var(--muted-foreground)]">Especie habilitada y perfil de inversor asignado.</span>
+                  </li>
+                  <li class="text-xs">
+                    <span class="font-semibold block text-[var(--foreground)]">2. ¿Cuánto se opera?</span>
+                    <span class="text-[var(--muted-foreground)]">Consumo de cupo operativo dinámico.</span>
+                  </li>
+                  <li class="text-xs">
+                    <span class="font-semibold block text-[var(--foreground)]">3. ¿Quién opera?</span>
+                    <span class="text-[var(--muted-foreground)]">Firmante o apoderado validado en el legajo.</span>
+                  </li>
+                  <li class="text-xs">
+                    <span class="font-semibold block text-[var(--foreground)]">4. ¿Por qué canal/vía?</span>
+                    <span class="text-[var(--muted-foreground)]">Vías permitidas (Provider, Reuters, Email, etc.).</span>
+                  </li>
+                </ul>
+              </div>
+
+              
+            </div>
+          </div>
+        </div>
+
+        <!-- VERTICAL C CONTENT -->
+        <div id="vert-c" class="vert-content hidden flex flex-col gap-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-bold mb-4">Vertical C: Operatoria, Screening & Cupo Dinámico</h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-red-500/5 border border-red-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-red-500 uppercase tracking-wider">Manejo Actual de Negativas</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Las trabas de Compliance no se notifican en sistema. El comercial asume el costo de explicar la negativa verbalmente al cliente. Se carece de registro formal de incidentes y las advertencias de perfil de inversor no se aplican.
+                  </p>
+                </div>
+                <div class="bg-green-500/5 border border-green-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-green-500 uppercase tracking-wider">Despersonalización Sistémica</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Firmando una cláusula de admisión en la apertura, el sistema ejecuta reglas de corte. El cliente visualiza su perfil y restricciones en un panel. Si la operación se cae, el sistema expone el motivo, quitando fricción al comercial.
+                  </p>
+                </div>
+              </div>
+
+              <!-- SCREENING SOURCES & STATUS -->
+              <div class="border border-[var(--border)] rounded-lg p-5 bg-[var(--background)]">
+                <h4 class="text-sm font-bold mb-4">Fuentes de Screening Integradas</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded text-center">
+                    <span class="text-xs font-bold block">RePET</span>
+                    <span class="text-[10px] text-emerald-500 font-semibold block mt-1">✅ Implementado</span>
+                  </div>
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded text-center">
+                    <span class="text-xs font-bold block">Worldsys</span>
+                    <span class="text-[10px] text-amber-500 font-semibold block mt-1">🔄 En Desarrollo</span>
+                  </div>
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded text-center">
+                    <span class="text-xs font-bold block">Nosis</span>
+                    <span class="text-[10px] text-blue-500 font-semibold block mt-1">🟢 Listo para Ingesta</span>
+                  </div>
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded text-center">
+                    <span class="text-xs font-bold block">OFAC</span>
+                    <span class="text-[10px] text-[var(--muted-foreground)] font-semibold block mt-1">⚪ Planeado (F3)</span>
+                  </div>
+                  <div class="bg-[var(--card)] border border-red-500/20 p-3 rounded text-center bg-red-500/[0.01]">
+                    <span class="text-xs font-bold block">PJN (Judiciales)</span>
+                    <span class="text-[10px] text-red-500 font-semibold block mt-1">⚠️ Brecha Técnica (B8)</span>
+                  </div>
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded text-center">
+                    <span class="text-xs font-bold block">Sujeto Obligado</span>
+                    <span class="text-[10px] text-emerald-500 font-semibold block mt-1">✅ Terminado</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 flex flex-col gap-6">
+              
+              <!-- CRITICIDAD -->
+              <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 shadow-sm">
+                <h4 class="font-bold text-xs tracking-wider uppercase text-[var(--muted-foreground)] mb-3">Criticidad por Tipo de Operación</h4>
+                <div class="flex flex-col gap-2">
+                  <div class="flex justify-between text-xs items-center">
+                    <span>Contado con Liqui (CCL)</span>
+                    <span class="px-2 py-0.5 bg-red-500/10 text-red-500 text-[10px] font-bold rounded">🔴 Crítico</span>
+                  </div>
+                  <div class="flex justify-between text-xs items-center">
+                    <span>MAV No Garantizado</span>
+                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-500 text-[10px] font-bold rounded">🟡 Medio-Alto</span>
+                  </div>
+                  <div class="flex justify-between text-xs items-center">
+                    <span>Renta Variable</span>
+                    <span class="px-2 py-0.5 bg-blue-500/10 text-blue-500 text-[10px] font-bold rounded">🔵 Medio-Bajo</span>
+                  </div>
+                  <div class="flex justify-between text-xs items-center">
+                    <span>Futuros / Colocaciones</span>
+                    <span class="px-2 py-0.5 bg-[var(--border)] text-[var(--muted-foreground)] text-[10px] font-bold rounded">⚪ Bajo</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PANEL CUPO DIRECTIVE -->
+              <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 shadow-sm">
+                <h4 class="font-bold text-xs tracking-wider uppercase text-[var(--muted-foreground)] mb-2">Diseño del Cupo Dinámico</h4>
+                <p class="text-xs text-[var(--muted-foreground)] mb-2">
+                  Gabriel De Seta objetó la asignación manual del cupo estático. MatchFin debe proveer un <strong>panel configurable por cliente</strong>:
+                </p>
+                <div class="text-[10px] bg-[var(--background)] border border-[var(--border)] p-2 rounded flex flex-col gap-1 text-[var(--muted-foreground)]">
+                  <div>• Acumular vs Netear flujos de egreso.</div>
+                  <div>• Márgenes (40% o 60%) sobre activo corriente.</div>
+                  <div>• Modificadores con caducidad temporal (2 meses).</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- VERTICAL D CONTENT -->
+        <div id="vert-d" class="vert-content hidden flex flex-col gap-6">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <div class="lg:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+              <h3 class="text-lg font-bold mb-4">Vertical D: Monitoreo Conductual & Hub de Reportes</h3>
+              
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div class="bg-red-500/5 border border-red-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-red-500 uppercase tracking-wider">Enfoque Actual</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Las revisiones de comportamiento son reactivas. El control de los reportes enviados a CNV/UIF es manual, lento y propenso al error del revisor ("controlar el control a mano").
+                  </p>
+                </div>
+                <div class="bg-green-500/5 border border-green-500/20 p-4 rounded-lg">
+                  <span class="text-xs font-semibold text-green-500 uppercase tracking-wider">Automatización de Conductas</span>
+                  <p class="text-xs text-[var(--muted-foreground)] mt-2">
+                    Control de reportes masivos mediante proceso inverso cruzado (espejo). Motor de alertas de conducta interno (churning, rotación sin cambio de duration). Generación automatizada de legajos de incidentes.
+                  </p>
+                </div>
+              </div>
+
+              <!-- ROI VS ROS SCHEME -->
+              <div class="border border-[var(--border)] rounded-lg p-5 bg-[var(--background)]">
+                <h4 class="text-sm font-bold mb-4 text-center">Arquitectura de Operaciones Inusuales y Sospechosas</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-4 rounded">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs font-bold text-amber-500">ROI (Interno)</span>
+                      <span class="text-[10px] text-[var(--muted-foreground)]">Inusualidad Operativa</span>
+                    </div>
+                    <p class="text-[11px] text-[var(--muted-foreground)]">
+                      Detección sistémica de patrones no consistentes con el perfil. Alertas de policía interna (churning de asesores, comisiones cruzadas).
+                    </p>
+                  </div>
+                  <div class="bg-[var(--card)] border border-[var(--border)] p-4 rounded">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-xs font-bold text-red-500">ROS (Nomativo)</span>
+                      <span class="text-[10px] text-[var(--muted-foreground)]">Reporte UIF obligado</span>
+                    </div>
+                    <p class="text-[11px] text-[var(--muted-foreground)]">
+                      Vinculado a lavado o terrorismo. <strong>Ciclo de vida propio.</strong> Puede existir ROS sin comitente activo (operación tentada).
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 flex flex-col gap-6">
+              
+              <!-- COCTELERA REPORTES -->
+              <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 shadow-sm">
+                <h4 class="font-bold text-xs tracking-wider uppercase text-[var(--muted-foreground)] mb-3">Coctelera de Reportes (Hub)</h4>
+                <p class="text-xs text-[var(--muted-foreground)] mb-2">
+                  La CNV exige reportar múltiples variables contables y de mercado (pasivos, liquidez). El hub consolidará las fuentes en un proceso automatizado con <strong>control del control espejo</strong>.
+                </p>
+                <div class="text-[10px] bg-blue-500/5 border border-blue-500/20 text-blue-500 rounded p-2.5">
+                  <strong>Estrategia de lanzamiento:</strong> Iniciar con un piloto de 3 reportes esenciales de distintos sectores para asegurar el modelo de coctelera de datos.
+                </div>
+              </div>
+
+              
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 3: INTEGRATION PUZZLE -->
+      <!-- ============================================== -->
+      <section id="tab-integration" class="tab-content hidden flex flex-col gap-6">
+        
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+          <h2 class="text-xl font-bold mb-2">Integración de Compliance con la Infraestructura MatchFin</h2>
+          <p class="text-sm text-[var(--muted-foreground)] max-w-3xl mb-4">
+            El módulo de Compliance actúa como la pieza reguladora central. Así encastra en los tres módulos existentes desarrollados por MatchFin:
+          </p>
+
+          <!-- MODULE PIECES CARD -->
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
+            <!-- Onboarding Integration -->
+            <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold text-sm">OB</div>
+                <h3 class="font-bold text-sm">Módulo Onboarding</h3>
+              </div>
+              <ul class="text-xs text-[var(--muted-foreground)] flex flex-col gap-2">
+                <li><strong class="text-[var(--foreground)]">Semáforo Dinámico:</strong> La obligatoriedad de los campos impositivos y societarios cambia según el <strong>Nivel de Diligencia (C4)</strong>.</li>
+                <li><strong class="text-[var(--foreground)]">Ingesta Inteligente:</strong> El extractor por checklist IA (C3) auto-completa el legajo (statutes, apoderados) al subir PDFs.</li>
+                <li><strong class="text-[var(--foreground)]">Vencimientos Auto:</strong> El sistema de avisos manual de Onboarding pasa a ser automático y preventivo (alertas a 3 meses).</li>
+              </ul>
+            </div>
+
+            <!-- Credit Management Integration -->
+            <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold text-sm">CM</div>
+                <h3 class="font-bold text-sm">Credit Management</h3>
+              </div>
+              <ul class="text-xs text-[var(--muted-foreground)] flex flex-col gap-2">
+                <li><strong class="text-[var(--foreground)]">Insumo de Ratios:</strong> El vuelco automático de balances alimenta el cálculo de variables patrimoniales del motor de Compliance.</li>
+                <li><strong class="text-[var(--foreground)]">Cupo a Pre-Trade:</strong> El cupo de referencia del análisis quant ya no es orientativo: parametrizado por Compliance Officer, limita compras en tiempo real.</li>
+                <li><strong class="text-[var(--foreground)]">CUITs Vinculados:</strong> La estructura societaria registrada alimenta el motor de nexos de grupos económicos (capacidad C1).</li>
+              </ul>
+            </div>
+
+            <!-- Blotter Integration -->
+            <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-5">
+              <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded bg-red-500/10 text-red-500 flex items-center justify-center font-bold text-sm">BL</div>
+                <h3 class="font-bold text-sm">Blotter & Pre-Trade</h3>
+              </div>
+              <ul class="text-xs text-[var(--muted-foreground)] flex flex-col gap-2">
+                <li><strong class="text-[var(--foreground)]">4 Capas Lógicas:</strong> El Pre-Trade Auditor (PTL) del Blotter consulta al motor de Compliance para validar Canal, Perfil, Cupo y Pago.</li>
+                <li><strong class="text-[var(--foreground)]">Gestión de Override:</strong> El rechazo del PTL se envía como contingencia automática (R5). El comercial no asume el costo político, el sistema expone el bloqueo lógico.</li>
+                <li><strong class="text-[var(--foreground)]">Comitentes en Trámite:</strong> Se elimina la discrecionalidad mediante el onboarding escalonado de Nivel 1.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPEC GUIDANCE FOR DEVS -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+          <h3 class="text-base font-bold mb-4">Guía Quirúrgica de Specs Funcionales para el Equipo de Devs</h3>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+            
+            <!-- DATABASE CHANGES -->
+            <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-4">
+              <h4 class="font-bold text-sm text-[var(--primary)] mb-3">1. Cambios en Base de Datos (Onboarding Migrations)</h4>
+              <p class="text-[var(--muted-foreground)] mb-3">Los programadores deben modificar la tabla de solicitudes para soportar los niveles dinámicos:</p>
+              <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded font-mono text-[10px] text-[var(--muted-foreground)] mb-2">
+                -- Modificar tabla de solicitudes existente<br>
+                ALTER TABLE onboarding_solicitud <br>
+                ADD COLUMN nivel_diligencia_id INT FK,<br>
+                ADD COLUMN cupo_operativo_acumulado DECIMAL(18,2);
+              </div>
+              <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded font-mono text-[10px] text-[var(--muted-foreground)]">
+                -- Tabla de configuraciones de nivel<br>
+                CREATE TABLE diligencia_nivel (<br>
+                &nbsp;&nbsp;id INT PRIMARY KEY,<br>
+                &nbsp;&nbsp;entidad_id INT,<br>
+                &nbsp;&nbsp;nombre VARCHAR(50),<br>
+                &nbsp;&nbsp;monto_limite DECIMAL(18,2),<br>
+                &nbsp;&nbsp;campos_obligatorios JSON -- campos requeridos para este nivel<br>
+                );
+              </div>
+            </div>
+
+            <!-- REGULATORY ALGORITHM -->
+            <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-4 flex flex-col justify-between">
+              <div>
+                <h4 class="font-bold text-sm text-[var(--primary)] mb-3">2. Lógica del Validador Preoperatorio (Pseudocódigo)</h4>
+                <p class="text-[var(--muted-foreground)] mb-3">La validación en ruteo del Blotter se ejecutará consumiendo endpoints en microsegundos:</p>
+                <div class="bg-[var(--card)] border border-[var(--border)] p-3 rounded font-mono text-[10px] text-[var(--muted-foreground)] overflow-x-auto">
+                  // Validar comitente activo y vías autorizadas<br>
+                  SI comitente.estado != 'Abierta' ENTONCES retornar Bloqueo("Legajo no abierto")<br><br>
+                  SI orden.canal NOT IN comitente.canales_autorizados ENTONCES<br>
+                  &nbsp;&nbsp;retornar Bloqueo("Canal de ingreso no habilitado")<br><br>
+                  // Validar consumos de cupo operativo dinámico<br>
+                  Decimal saldo_disponible = comitente.cupo_limite - comitente.consumo_actual<br>
+                  SI orden.monto > saldo_disponible ENTONCES<br>
+                  &nbsp;&nbsp;Ejecutar_Trigger_Contingencia(orden.id, comitente.id)<br>
+                  &nbsp;&nbsp;retornar Bloqueo("Exceso de cupo. Requerido origen de fondos.")
+                </div>
+              </div>
+              
+              <!-- API ENDPOINTS CONTRACT -->
+              <div class="mt-4 pt-3 border-t border-[var(--border)]">
+                <span class="font-bold block mb-1">3. Integraciones de API requeridas:</span>
+                <div class="font-mono text-[10px] text-[var(--muted-foreground)] bg-[var(--card)] p-2 rounded">
+                  POST /api/v1/compliance/contingencias<br>
+                  Payload: { comitente_id, transgresion_tipo, monto_operacion }
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 4: ROADMAP & BACKLOG -->
+      <!-- ============================================== -->
+      <section id="tab-roadmap" class="tab-content hidden flex flex-col gap-6">
+        
+        <!-- ROADMAP TIMELINE GRAPHIC -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+          <h2 class="text-xl font-bold mb-2">Plan de Trabajo & Roadmap Progresivo</h2>
+          <p class="text-sm text-[var(--muted-foreground)] mb-6">
+            Mismo esquema y convención del proyecto Blotter. Las dependencias secuenciales obligan a consolidar las bases antes del desarrollo avanzado.
+          </p>
+
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="bg-[var(--background)] border-l-4 border-blue-500 p-4 rounded-r-lg">
+              <span class="text-[10px] font-bold text-blue-500 uppercase tracking-wider block">Fase 1</span>
+              <h4 class="font-bold text-xs mt-1 text-[var(--foreground)]">Núcleo y Legajo</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">C1 + C3 (Datos + Ingesta)<br></p>
+            </div>
+            
+            <div class="bg-[var(--background)] border-l-4 border-amber-500 p-4 rounded-r-lg">
+              <span class="text-[10px] font-bold text-amber-500 uppercase tracking-wider block">Fase 2</span>
+              <h4 class="font-bold text-xs mt-1 text-[var(--foreground)]">Onboarding Escalonado</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">C4 + C2 (Niveles + Firma)<br></p>
+            </div>
+
+            <div class="bg-[var(--background)] border-l-4 border-purple-500 p-4 rounded-r-lg relative">
+              <span class="absolute top-2 right-2 bg-purple-500/10 text-purple-500 text-[8px] font-bold px-1.5 py-0.5 rounded border border-purple-500/20">Paralelo</span>
+              <span class="text-[10px] font-bold text-purple-500 uppercase tracking-wider block">Fase 3</span>
+              <h4 class="font-bold text-xs mt-1 text-[var(--foreground)]">Screening Consolidado</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">C5 + C10 (Listas + Admisión)<br></p>
+            </div>
+
+            <div class="bg-[var(--background)] border-l-4 border-red-500 p-4 rounded-r-lg">
+              <span class="text-[10px] font-bold text-red-500 uppercase tracking-wider block">Fase 4</span>
+              <h4 class="font-bold text-xs mt-1 text-[var(--foreground)]">Pre-Trade & Cupos</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">C6 + C2 (Cercos + Panel)<br></p>
+            </div>
+
+            <div class="bg-[var(--background)] border-l-4 border-green-500 p-4 rounded-r-lg">
+              <span class="text-[10px] font-bold text-green-500 uppercase tracking-wider block">Fase 5</span>
+              <h4 class="font-bold text-xs mt-1 text-[var(--foreground)]">Hub Reportes & Alertas</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">C7 + C8 (Alertas + Espejo)<br></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TASKS LIST & FILTER -->
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <h3 class="font-bold text-sm">Lista de Requerimientos Backlog</h3>
+            
+            <!-- Filters -->
+            <div class="flex gap-2">
+              <button onclick="filterTasks('all')" id="btn-filt-all" class="filter-btn px-2.5 py-1 rounded text-xs font-semibold bg-[var(--primary)] text-[var(--primary-foreground)]">Todo</button>
+              <button onclick="filterTasks('green')" id="btn-filt-green" class="filter-btn px-2.5 py-1 rounded text-xs font-semibold border border-[var(--border)] text-[var(--muted-foreground)]">🟢 Listos</button>
+              <button onclick="filterTasks('yellow')" id="btn-filt-yellow" class="filter-btn px-2.5 py-1 rounded text-xs font-semibold border border-[var(--border)] text-[var(--muted-foreground)]">🟡 Input Req.</button>
+              <button onclick="filterTasks('white')" id="btn-filt-white" class="filter-btn px-2.5 py-1 rounded text-xs font-semibold border border-[var(--border)] text-[var(--muted-foreground)]">⚪ Dependientes</button>
+            </div>
+          </div>
+
+          <!-- TASK GRID -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto max-h-[500px] custom-scrollbar p-1" id="tasks-container">
+            
+            <!-- F1 -->
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="green" onclick="showTaskDetails('F1-01', 'Modelo de datos desagregado por entidad — persona humana / jurídica y subtipos', 'C1 - Núcleo de datos', 'F1', '🟢 Especificable ya', 'Ninguno', 'Define las estructuras de datos básicas de C1 requeridas por todo el sistema.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded">F1-01</span>
+                <span class="text-[10px] text-emerald-500 font-semibold flex items-center gap-1">🟢 Listo</span>
+              </div>
+              <h4 class="font-bold text-xs">Modelo de datos desagregado por entidad</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C1 · Estimación: ~2 semanas</p>
+            </div>
+
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="green" onclick="showTaskDetails('F1-02', 'Motor de nexos entre entidades — grupo económico, directores comunes, participación accionaria', 'C1 - Núcleo de datos', 'F1', '🟢 Especificable ya', 'Ninguno', 'Establece lógica de nexos entre CUITs para conformar grupos económicos (columna vertebral).')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded">F1-02</span>
+                <span class="text-[10px] text-emerald-500 font-semibold flex items-center gap-1">🟢 Listo</span>
+              </div>
+              <h4 class="font-bold text-xs">Motor de nexos entre entidades</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C1 · Estimación: ~3 semanas</p>
+            </div>
+
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="yellow" onclick="showTaskDetails('F1-06', 'Motor de extracción por checklist — set de preguntas por default para documentos', 'C3 - Ingesta Inteligente', 'F1', '🟡 Requiere Input de Negocio (B2)', 'B2 - Cuestionario/Checklist de datos por Pablo + Federico', 'Spec ejemplo detallado. Permite lectura con IA para no revisar PDFs manuales uno por uno.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-blue-500/10 text-blue-500 px-2 py-0.5 rounded">F1-06</span>
+                <span class="text-[10px] text-amber-500 font-semibold flex items-center gap-1">🟡 Input Req.</span>
+              </div>
+              <h4 class="font-bold text-xs">Motor de extracción por checklist</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C3 · Estimación:</p>
+            </div>
+
+            <!-- F2 -->
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="yellow" onclick="showTaskDetails('F2-01', 'Modelo de niveles de habilitación y transiciones para onboarding escalonado', 'C4 - Onboarding Escalonado', 'F2', '🟡 Requiere Input de Negocio (B1)', 'B1 - Vara y rangos del escalonamiento (Pablo Ruiz)', 'Clasificación de niveles (cupos por nivel) para activar onboarding escalonado.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded">F2-01</span>
+                <span class="text-[10px] text-amber-500 font-semibold flex items-center gap-1">🟡 Input Req.</span>
+              </div>
+              <h4 class="font-bold text-xs">Modelo de niveles de habilitación</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C4 · Estimación: ~3 semanas</p>
+            </div>
+
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="yellow" onclick="showTaskDetails('F2-04', 'Separación pedir / firmar — clasificación de campos del legajo digital', 'C4 - Onboarding Escalonado', 'F2', '🟡 Bloqueante B6 sin Dueño', 'B6 - Criterio de qué se firma y qué no', 'Determinar qué campos del onboarding requieren firma (perfil) y cuáles se autocompletan sin firma.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-amber-500/10 text-amber-500 px-2 py-0.5 rounded">F2-04</span>
+                <span class="text-[10px] text-amber-500 font-semibold flex items-center gap-1">🟡 Input Req.</span>
+              </div>
+              <h4 class="font-bold text-xs">Separación pedir / firmar (Legajos)</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C4 · Estimación: ~2 semanas</p>
+            </div>
+
+            <!-- F3 -->
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="green" onclick="showTaskDetails('F3-01', 'Consolidación de RePET + Sujeto Obligado bajo interfaz única de MatchFin', 'C5 - Screening', 'F3', '🟢 Especificable ya', 'Ninguno', 'Unifica la UI del verificador ya desarrollado y en funcionamiento.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-purple-500/10 text-purple-500 px-2 py-0.5 rounded">F3-01</span>
+                <span class="text-[10px] text-emerald-500 font-semibold flex items-center gap-1">🟢 Listo</span>
+              </div>
+              <h4 class="font-bold text-xs">Consolidación de RePET + Sujeto Obligado</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C5 · Estimación: ~1 semana</p>
+            </div>
+
+            <!-- F4 -->
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="white" onclick="showTaskDetails('F4-01', 'Motor de las 4 preguntas — auditor pre-trade ruteo', 'C6 - Pre-Trade Auditor', 'F4', '⚪ Depende de Fase F2', 'Fase F2 Onboarding Escalonado (Niveles)', 'Verifica que la orden pase los 4 checks antes del ruteo al mercado.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-red-500/10 text-red-500 px-2 py-0.5 rounded">F4-01</span>
+                <span class="text-[10px] text-[var(--muted-foreground)] font-semibold flex items-center gap-1">⚪ Dependiente</span>
+              </div>
+              <h4 class="font-bold text-xs">Motor de las 4 preguntas (Pre-Trade)</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C6 · Estimación: ~4 semanas</p>
+            </div>
+
+            <div class="task-item border border-[var(--border)] p-4 rounded-lg bg-[var(--background)] hover:border-[var(--primary)] transition-all cursor-pointer" data-status="yellow" onclick="showTaskDetails('F4-04', 'Cupo operativo — panel de control configurable por cliente', 'C6 - Pre-Trade Auditor', 'F4', '🟡 Requiere Input B4', 'B4 - Criterio de cálculo de cupo (Agustín Córdoba)', 'Configurador dinámico para parametrizar acumulación, márgenes y caducidad de cupos por cliente.')">
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-xs font-bold bg-red-500/10 text-red-500 px-2 py-0.5 rounded">F4-04</span>
+                <span class="text-[10px] text-amber-500 font-semibold flex items-center gap-1">🟡 Input Req.</span>
+              </div>
+              <h4 class="font-bold text-xs">Cupo Operativo - Panel Configurable</h4>
+              <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Capacidad: C6 · Estimación: ~3 semanas</p>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- DETAIL MODAL/DRAWER (HIDDEN BY DEFAULT) -->
+      <div id="task-drawer" class="hidden fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl w-full max-w-lg p-6 shadow-lg flex flex-col gap-4">
+          <div class="flex justify-between items-start">
+            <div>
+              <span id="drawer-id" class="px-2 py-0.5 rounded text-xs font-bold bg-[var(--primary)]/10 text-[var(--primary)]">F1-01</span>
+              <h3 id="drawer-title" class="font-bold text-base mt-2">Título de la Tarea</h3>
+            </div>
+            <button onclick="closeTaskDrawer()" class="text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4 text-xs">
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Capacidad</span>
+              <span id="drawer-cap" class="font-semibold">C1 - Núcleo</span>
+            </div>
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Fase</span>
+              <span id="drawer-phase" class="font-semibold">Fase 1</span>
+            </div>
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Estado Funcional</span>
+              <span id="drawer-status" class="font-semibold">🟢 Listo</span>
+            </div>
+            <div>
+              <span class="text-[var(--muted-foreground)] block">Requerimiento</span>
+              <span id="drawer-input" class="font-semibold">Ninguno</span>
+            </div>
+          </div>
+          
+          <div>
+            <span class="text-xs text-[var(--muted-foreground)] block">Descripción Operativa</span>
+            <p id="drawer-desc" class="text-xs mt-1 text-[var(--foreground)]">Detalles de la tarea...</p>
+          </div>
+
+          <div class="mt-4 flex justify-end">
+            <button onclick="closeTaskDrawer()" class="px-4 py-2 bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg text-xs font-semibold">Cerrar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================== -->
+      <!-- TAB 6: BLOCKERS & TENSIONS -->
+      <!-- ============================================== -->
+      <section id="tab-blockers" class="tab-content hidden flex flex-col gap-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          <!-- BLOCKERS CARD -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-bold mb-2 text-red-500 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+              Bloqueantes Funcionales (B1 - B8)
+            </h3>
+            <p class="text-xs text-[var(--muted-foreground)] mb-4">Definiciones operativas obligatorias de negocio antes de poder especificar al equipo de dev.</p>
+            
+            <div class="flex flex-col gap-3 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+              
+              <!-- B1 -->
+              <div class="border border-[var(--border)] p-3.5 rounded-lg bg-[var(--background)]">
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="text-xs font-bold text-[var(--foreground)]">B1 · Vara y rangos del escalonamiento</h4>
+                  <span class="text-[9px] bg-red-500/10 text-red-500 font-bold px-1.5 rounded">Alto Impacto</span>
+                </div>
+                <p class="text-[10px] text-[var(--muted-foreground)]">Definir los patrones de montos (ej. $2M -> $20M) para las transiciones.</p>
+                <div class="mt-2 flex justify-between text-[9px] text-[var(--muted-foreground)]">
+                  <span>Dueño: <strong>Pablo Ruiz</strong></span>
+                  <span>Bloquea: <strong>F2 Completa</strong></span>
+                </div>
+              </div>
+
+              <!-- B2 -->
+              <div class="border border-[var(--border)] p-3.5 rounded-lg bg-[var(--background)]">
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="text-xs font-bold text-[var(--foreground)]">B2 · Cuestionario/Checklist de Ingesta (C3)</h4>
+                  <span class="text-[9px] bg-yellow-500/10 text-amber-500 font-bold px-1.5 rounded">Medio Impacto</span>
+                </div>
+                <p class="text-[10px] text-[var(--muted-foreground)]">Listado de preguntas default y campos societarios a extraer por IA.</p>
+                <div class="mt-2 flex justify-between text-[9px] text-[var(--muted-foreground)]">
+                  <span>Dueños: <strong>Pablo + Federico</strong></span>
+                  <span>Bloquea: <strong>F1-C3 / F1-06</strong></span>
+                </div>
+              </div>
+
+              <!-- B3 -->
+              <div class="border-2 border-red-500/30 p-3.5 rounded-lg bg-red-500/[0.01]">
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="text-xs font-bold text-red-500">B3 · Datos mínimos para Clasificar Riesgo Crítico</h4>
+                  <span class="text-[9px] bg-red-500/20 text-red-500 font-bold px-1.5 rounded">Crítico</span>
+                </div>
+                <p class="text-[10px] text-[var(--muted-foreground)]">Set de datos mínimos requeridos para perfilar riesgo bajo/medio sin caer en sobre-pedidos manuales. <strong>Sin dueño asignado.</strong></p>
+                <div class="mt-2 flex justify-between text-[9px] text-[var(--muted-foreground)]">
+                  <span>Dueño: <strong class="text-red-500 font-black">PENDIENTE</strong></span>
+                  <span>Bloquea: <strong>F2</strong></span>
+                </div>
+              </div>
+
+              <!-- B6 -->
+              <div class="border-2 border-red-500/30 p-3.5 rounded-lg bg-red-500/[0.01]">
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="text-xs font-bold text-red-500">B6 · Criterio de qué se firma y qué no</h4>
+                  <span class="text-[9px] bg-red-500/20 text-red-500 font-bold px-1.5 rounded">Crítico</span>
+                </div>
+                <p class="text-[10px] text-[var(--muted-foreground)]">Criterio legal del extracto a firmar contra las 15 hojas del onboarding actual. <strong>Nadie lo tomó en la reunión.</strong></p>
+                <div class="mt-2 flex justify-between text-[9px] text-[var(--muted-foreground)]">
+                  <span>Dueño: <strong class="text-red-500 font-black">SIN ASIGNAR</strong></span>
+                  <span>Bloquea: <strong>F2 / F2-04</strong></span>
+                </div>
+              </div>
+
+              <!-- B8 -->
+              <div class="border border-[var(--border)] p-3.5 rounded-lg bg-[var(--background)]">
+                <div class="flex justify-between items-start mb-1">
+                  <h4 class="text-xs font-bold text-[var(--foreground)]">B8 · Vía de acceso a base PJN (Judiciales)</h4>
+                  <span class="text-[9px] bg-blue-500/10 text-blue-500 font-bold px-1.5 rounded">Bajo</span>
+                </div>
+                <p class="text-[10px] text-[var(--muted-foreground)]">Definir si se usa credencial de analista (Mauro tiene), abogados, o API paga.</p>
+                <div class="mt-2 flex justify-between text-[9px] text-[var(--muted-foreground)]">
+                  <span>Dueño: <strong>Mauro Barnatan</strong></span>
+                  <span>Bloquea: <strong>F3</strong></span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- TENSIONS CARD -->
+          <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+            <h3 class="text-lg font-bold mb-2 text-amber-500 flex items-center gap-2">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              Tensiones y Criterios Abiertos (T1 - T8)
+            </h3>
+            <p class="text-xs text-[var(--muted-foreground)] mb-4">Desacuerdos internos identificados en la llamada que afectarán el roadmap si no se alinean.</p>
+            
+            <div class="flex flex-col gap-3 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+              
+              <!-- T1 -->
+              <div class="border border-[var(--border)] p-3.5 rounded-lg bg-[var(--background)]">
+                <h4 class="text-xs font-bold text-[var(--foreground)]">T1 · Escalonar por Monto vs Exigir Origen Siempre</h4>
+                <p class="text-[10px] text-[var(--muted-foreground)] mt-1">
+                  La norma habilita umbrales, pero Federico argumenta que operar sin origen de fondos . Choca directamente con la viabilidad del onboarding escalonado rápido.
+                </p>
+                <span class="text-[9px] bg-red-500/10 text-red-500 font-semibold px-2 py-0.5 rounded mt-2 block w-max">Bloquea Fase F2</span>
+              </div>
+
+              <!-- T2 -->
+              <div class="border border-[var(--border)] p-3.5 rounded-lg bg-[var(--background)]">
+                <h4 class="text-xs font-bold text-[var(--foreground)]">T2 · Reducir Legajo de Firma vs Pedir de Más</h4>
+                <p class="text-[10px] text-[var(--muted-foreground)] mt-1">
+                  Federico busca eliminar firmas físicas innecesarias para agilizar. Pablo defiende pedir toda la información societaria desde el inicio para estar completamente cubiertos y poder perfilar adecuadamente.
+                </p>
+                <span class="text-[9px] bg-amber-500/10 text-amber-500 font-semibold px-2 py-0.5 rounded mt-2 block w-max">Afecta B6</span>
+              </div>
+
+              <!-- T5 -->
+              <div class="border border-[var(--border)] p-3.5 rounded-lg bg-[var(--background)]">
+                <h4 class="text-xs font-bold text-[var(--foreground)]">T5 · Decisión Final sobre Clientes Expuestos</h4>
+                <p class="text-[10px] text-[var(--muted-foreground)] mt-1">
+                  El sistema bloquea y parametriza de forma automática, pero Pablo destaca que la decisión final (comercial, política y lavado) sobre cuentas políticamente expuestas no puede automatizarse ni recaer en el ruteador de MatchFin.
+                </p>
+                <span class="text-[9px] bg-blue-500/10 text-blue-500 font-semibold px-2 py-0.5 rounded mt-2 block w-max">Define C10</span>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 7: SPECS FRAMEWORK & F1-06 -->
+      <!-- ============================================== -->
+      <section id="tab-specs" class="tab-content hidden flex flex-col gap-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- LEFT SIDE: RULES -->
+          <div class="lg:col-span-4 bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm flex flex-col gap-4">
+            <h3 class="text-base font-bold">5 Reglas de Escritura de Specs</h3>
+            <p class="text-xs text-[var(--muted-foreground)]">Para escribir especificaciones de compliance bajo la metodología del proyecto Blotter.</p>
+            
+            <div class="flex flex-col gap-3 mt-2">
+              <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+                <span class="text-xs font-bold block text-[var(--primary)]">R1 · Declarar qué desaparece</span>
+                <span class="text-[10px] text-[var(--muted-foreground)]">Es obligatorio declarar qué tarea manual o planilla de Excel se elimina con la spec.</span>
+              </div>
+              <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+                <span class="text-xs font-bold block text-[var(--primary)]">R2 · Regla Estable vs Parámetro</span>
+                <span class="text-[10px] text-[var(--muted-foreground)]">Ninguna regla regulatoria se hardcodea. Si un cambio normativo obliga a deployar, está mal escrita.</span>
+              </div>
+              <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+                <span class="text-xs font-bold block text-[var(--primary)]">R3 · Parametrizar por entidad_id</span>
+                <span class="text-[10px] text-[var(--muted-foreground)] font-medium">Facimex y PISA aplican criterios distintos. Toda tabla regulatoria debe llevar la columna entidad.</span>
+              </div>
+              <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+                <span class="text-xs font-bold block text-[var(--primary)]">R4 · Exponer Output, no Insumos</span>
+                <span class="text-[10px] text-[var(--muted-foreground)]">El sistema publica el semáforo o habilitación a comerciales. Los datos analizados (legajos) son caja negra de Compliance.</span>
+              </div>
+              <div class="p-3 bg-[var(--background)] border border-[var(--border)] rounded-lg">
+                <span class="text-xs font-bold block text-[var(--primary)]">R5 · Handoff al Humano Post-Alerta</span>
+                <span class="text-[10px] text-[var(--muted-foreground)]">La contingencia inicial es automática. El analista decide cuando el sistema recolectó toda la información.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT SIDE: SPEC F1-06 -->
+          <div class="lg:col-span-8 bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm flex flex-col gap-4">
+            <div class="flex justify-between items-center border-b border-[var(--border)] pb-3">
+              <div>
+                <span class="text-xs font-bold bg-blue-500/10 text-blue-500 px-2.5 py-1 rounded border border-blue-500/20">F1-06</span>
+                <h3 class="text-base font-bold mt-2">Spec de Referencia: Motor de Extracción por Checklist</h3>
+              </div>
+              <span class="text-xs text-[var(--muted-foreground)]">Capacidad: C3 · Fase: F1</span>
+            </div>
+
+            <!-- SCROLLABLE SPEC BODY -->
+            <div class="text-xs flex flex-col gap-4 overflow-y-auto max-h-[550px] custom-scrollbar pr-2">
+              <div>
+                <h4 class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1 mb-1.5 uppercase tracking-wider text-[10px]">1. Objetivo Funcional</h4>
+                <p class="text-[var(--muted-foreground)]">Que un analista de Compliance obtenga, sobre el corpus documental de un comitente, las respuestas a un set finito y predefinido de preguntas (vigencia, poderes, beneficiarios) sin abrir los documentos uno por uno.</p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1 mb-1.5 uppercase tracking-wider text-[10px]">2. Qué deja de hacerse (R1)</h4>
+                <p class="text-[var(--muted-foreground)]">Se elimina la revisión manual documento por documento para extraer datos societarios (poderes, actas, estatutos) en el onboarding. El analista no dictamina de forma automática, el sistema asiste y el analista aprueba.</p>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1 mb-1.5 uppercase tracking-wider text-[10px]">3. Modelo de Datos Propuesto</h4>
+                <div class="bg-[var(--background)] border border-[var(--border)] p-3 rounded font-mono text-[10px] text-[var(--muted-foreground)] flex flex-col gap-1">
+                  <div>• <strong>checklist_pregunta</strong>: id, entidad_id, codigo, texto, tipo_dato, tipo_documento_esperado, es_default, activa</div>
+                  <div>• <strong>extraccion</strong>: id, comitente_id, fecha, usuario_id, estado, documentos_alcanzados[]</div>
+                  <div>• <strong>extraccion_respuesta</strong>: id, extraccion_id, pregunta_id, valor, confianza, documento_origen_id, ubicacion_en_documento, estado (respondida/no_encontrada/ambigua), valor_corregido, corregido_por</div>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1 mb-1.5 uppercase tracking-wider text-[10px]">4. Reglas de Negocio (R2)</h4>
+                <table class="w-full text-left text-[11px] border border-[var(--border)]">
+                  <thead>
+                    <tr class="bg-[var(--background)] border-b border-[var(--border)]">
+                      <th class="p-2 font-bold">Capa</th>
+                      <th class="p-2 font-bold">Implementación</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="border-b border-[var(--border)]">
+                      <td class="p-2 font-semibold text-[var(--foreground)]">Dato Crudo</td>
+                      <td class="p-2 text-[var(--muted-foreground)]">Contenido digitalizado de los PDFs cargados por el cliente.</td>
+                    </tr>
+                    <tr class="border-b border-[var(--border)]">
+                      <td class="p-2 font-semibold text-[var(--foreground)]">Parámetro (entidad_id)</td>
+                      <td class="p-2 text-[var(--muted-foreground)]">Set de preguntas default, umbral de confianza para marcar como "ambigua", tipos societarios.</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 font-semibold text-[var(--foreground)]">Regla Estable</td>
+                      <td class="p-2 text-[var(--muted-foreground)]">Evaluación del checklist contra el corpus total del cliente. Vigencia calculada a años contra fecha de constitución. Confianza bajo umbral obliga estado "ambigua".</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div>
+                <h4 class="font-bold text-[var(--foreground)] border-b border-[var(--border)] pb-1 mb-1.5 uppercase tracking-wider text-[10px]">5. Criterios de Aceptación (Dado / Cuando / Entonces)</h4>
+                <ul class="list-decimal pl-4 flex flex-col gap-1 text-[var(--muted-foreground)]">
+                  <li><strong>Dado</strong> un comitente con estatuto cargado, <strong>cuando</strong> se ejecuta la extracción, <strong>entonces</strong> se devuelven los campos con link a la página y documento origen.</li>
+                  <li><strong>Dado</strong> un valor con confianza bajo el umbral de la entidad, <strong>cuando</strong> se presenta el resultado, <strong>entonces</strong> se marca "ambigua" y no escribe en C1 hasta confirmación del analista.</li>
+                  <li><strong>Dado</strong> un usuario Comercial, <strong>cuando</strong> intenta ver el resultado, <strong>entonces</strong> el sistema lo rechaza a nivel de servidor (R4).</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+  </div>
+
+  <!-- SCRIPT FOR TAB SWITCHING AND SIMULATOR INTERACTIVITY -->
+  <script>
+    // Tab switching logic
+    function switchTab(tabId) {
+      // Hide all contents
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.add('hidden');
+      });
+      // Show targeted content
+      document.getElementById(tabId).classList.remove('hidden');
+
+      // Update sidebar buttons styling
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-[var(--primary)]', 'bg-[var(--primary)]/10');
+        btn.classList.add('text-[var(--muted-foreground)]');
+      });
+      document.getElementById('btn-' + tabId).classList.add('text-[var(--primary)]', 'bg-[var(--primary)]/10');
+      document.getElementById('btn-' + tabId).classList.remove('text-[var(--muted-foreground)]');
+    }
+
+    // Vertical tabs switching logic
+    function switchVertical(vertId) {
+      document.querySelectorAll('.vert-content').forEach(vc => {
+        vc.classList.add('hidden');
+      });
+      document.getElementById(vertId).classList.remove('hidden');
+
+      document.querySelectorAll('.vert-btn').forEach(btn => {
+        btn.classList.remove('bg-[var(--primary)]', 'text-[var(--primary-foreground)]', 'shadow-sm');
+        btn.classList.add('border', 'border-[var(--border)]', 'text-[var(--muted-foreground)]');
+      });
+      document.getElementById('btn-' + vertId).classList.add('bg-[var(--primary)]', 'text-[var(--primary-foreground)]', 'shadow-sm');
+      document.getElementById('btn-' + vertId).classList.remove('border', 'border-[var(--border)]', 'text-[var(--muted-foreground)]');
+    }
+
+    // Simulator scenarios switching
+    function switchSimScenario(simId) {
+      document.querySelectorAll('.sim-scenario').forEach(sc => {
+        sc.classList.add('hidden');
+      });
+      document.getElementById(simId).classList.remove('hidden');
+
+      document.querySelectorAll('.sim-tab-btn').forEach(btn => {
+        btn.classList.remove('border-[var(--primary)]', 'text-[var(--foreground)]');
+        btn.classList.add('border-transparent', 'text-[var(--muted-foreground)]');
+      });
+      document.getElementById('btn-' + simId).classList.add('border-[var(--primary)]', 'text-[var(--foreground)]');
+      document.getElementById('btn-' + simId).classList.remove('border-transparent', 'text-[var(--muted-foreground)]');
+    }
+
+    // Simulator GE logic
+    function updateSimGE() {
+      const shareVal = document.getElementById('input-share').value;
+      const thresholdVal = document.getElementById('input-threshold').value;
+      const hasCcl = document.getElementById('input-ccl').checked;
+      const entity = document.getElementById('input-entity').value;
+      const days = document.getElementById('input-days').value;
+
+      document.getElementById('val-share').innerText = shareVal + '%';
+      document.getElementById('val-threshold').innerText = thresholdVal + '%';
+
+      const isGE = parseInt(shareVal) >= parseInt(thresholdVal);
+      const resultBox = document.getElementById('sim-ge-result-box');
+      const resultLabel = document.getElementById('sim-ge-result-label');
+      const resultValue = document.getElementById('sim-ge-result-value');
+
+      if (isGE) {
+        if (hasCcl) {
+          resultBox.className = "my-6 p-4 rounded-lg text-center bg-red-500/10 border border-red-500/30 text-red-500";
+          resultLabel.innerText = "ALERTA NORMAS BCRA · VINCULADOS";
+          resultValue.innerText = "BLOQUEAR ACCESO A MULC (" + days + " días)";
+        } else {
+          resultBox.className = "my-6 p-4 rounded-lg text-center bg-amber-500/10 border border-amber-500/30 text-amber-500";
+          resultLabel.innerText = "GRUPO ECONÓMICO DETECTADO (Vinculación: " + shareVal + "%)";
+          resultValue.innerText = "HABILITADO OPERATIVO (Bajo Monitoreo)";
+        }
+      } else {
+        resultBox.className = "my-6 p-4 rounded-lg text-center bg-emerald-500/10 border border-emerald-500/30 text-emerald-500";
+        resultLabel.innerText = "SIN GRUPO ECONÓMICO (Independiente)";
+        resultValue.innerText = "HABILITADO (MULC LIBRE)";
+      }
+    }
+
+    // Simulator Parking logic
+    function updateSimPark() {
+      const parkDays = document.getElementById('input-park-days').value;
+      const parkReq = document.getElementById('input-park-req').value;
+      const asset = document.getElementById('input-asset').value;
+
+      document.getElementById('val-park-days').innerText = parkDays + (parkDays == 1 ? ' día' : ' días');
+      document.getElementById('val-park-req').innerText = parkReq + (parkReq == 1 ? ' día' : ' días');
+
+      const isCompliant = parseInt(parkDays) >= parseInt(parkReq);
+      const resultBox = document.getElementById('sim-park-result-box');
+      const resultLabel = document.getElementById('sim-park-result-label');
+      const resultValue = document.getElementById('sim-park-result-value');
+
+      if (isCompliant) {
+        resultBox.className = "my-6 p-4 rounded-lg text-center bg-emerald-500/10 border border-emerald-500/30 text-emerald-500";
+        resultLabel.innerText = "PARKING CUMPLIDO (" + parkDays + "/" + parkReq + " Días)";
+        resultValue.innerText = "VENTA EN USD HABILITADA (Bono " + asset + ")";
+      } else {
+        resultBox.className = "my-6 p-4 rounded-lg text-center bg-red-500/10 border border-red-500/30 text-red-500";
+        resultLabel.innerText = "INFRACCIÓN DE PARKING (" + parkDays + "/" + parkReq + " Días)";
+        resultValue.innerText = "VENTA EN USD BLOQUEADA (Falta parking)";
+      }
+    }
+
+    // Task list filtering
+    function filterTasks(status) {
+      // Toggle button active state
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('bg-[var(--primary)]', 'text-[var(--primary-foreground)]');
+        btn.classList.add('border', 'border-[var(--border)]', 'text-[var(--muted-foreground)]');
+      });
+      document.getElementById('btn-filt-' + status).classList.add('bg-[var(--primary)]', 'text-[var(--primary-foreground)]');
+      document.getElementById('btn-filt-' + status).classList.remove('border', 'border-[var(--border)]', 'text-[var(--muted-foreground)]');
+
+      // Filter tasks
+      document.querySelectorAll('.task-item').forEach(item => {
+        if (status === 'all' || item.getAttribute('data-status') === status) {
+          item.classList.remove('hidden');
+        } else {
+          item.classList.add('hidden');
+        }
+      });
+    }
+
+    // Modal drawer for tasks
+    function showTaskDetails(id, title, cap, phase, status, input, desc) {
+      document.getElementById('drawer-id').innerText = id;
+      document.getElementById('drawer-title').innerText = title;
+      document.getElementById('drawer-cap').innerText = cap;
+      document.getElementById('drawer-phase').innerText = phase;
+      document.getElementById('drawer-status').innerText = status;
+      document.getElementById('drawer-input').innerText = input;
+      document.getElementById('drawer-desc').innerText = desc;
+      
+      document.getElementById('task-drawer').classList.remove('hidden');
+    }
+
+    // Initialize simulators on load
+    window.onload = function() {
+      updateSimGE();
+      updateSimPark();
+    }
+  </script>
+</body>
+</html>
