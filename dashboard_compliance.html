@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -6,6 +6,16 @@
   <title>MatchFin · Compliance Dashboard · Facimex</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <style>
+    :root {
+      --background: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --primary: #3b82f6;
+      --primary-foreground: #ffffff;
+      --sidebar: #0f172a;
+      --foreground: #f8fafc;
+      --muted-foreground: #94a3b8;
+    }
     /* Custom scrollbar for cards */
     .custom-scrollbar::-webkit-scrollbar {
       width: 6px;
@@ -1335,10 +1345,17 @@
       document.getElementById('task-drawer').classList.remove('hidden');
     }
 
-    // Initialize simulators on load
-    window.onload = function() {
+    // Initialize simulators robustly (works in sandboxes / dynamic previews)
+    function initSimulators() {
       updateSimGE();
       updateSimPark();
+    }
+
+    if (document.readyState === "complete" || document.readyState === "interactive") {
+      initSimulators();
+    } else {
+      window.addEventListener("DOMContentLoaded", initSimulators);
+      window.addEventListener("load", initSimulators);
     }
   </script>
 </body>
