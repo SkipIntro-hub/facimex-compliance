@@ -33,7 +33,7 @@
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 antialiased font-sans min-h-screen flex flex-col" style="--background: #0f172a; --card: #1e293b; --border: #334155; --primary: #3b82f6; --primary-foreground: #ffffff; --sidebar: #0f172a; --foreground: #f8fafc; --muted-foreground: #94a3b8;">
+<body class="bg-[var(--background)] text-[var(--foreground)] antialiased font-sans min-h-screen flex flex-col">
 
   <!-- TOP BAR -->
   <header class="border-b border-[var(--border)] bg-[var(--card)] px-6 py-4 flex flex-wrap items-center justify-between gap-4">
@@ -84,7 +84,7 @@
 
       <button onclick="switchTab('tab-integration')" id="btn-tab-integration" class="tab-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--primary)]/5">
         <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 011-1h3a1 1 0 001-1V4z" />
+          <path stroke-linecap="round" stroke-linejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
         </svg>
         Integración MatchFin
       </button>
@@ -326,7 +326,7 @@
                     <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[9px] bg-[var(--primary)] text-[var(--primary-foreground)] rounded-full font-bold">Nivel 1</span>
                     <h5 class="font-bold text-xs mt-1">Básico (Onboarding)</h5>
                     <p class="text-[10px] text-[var(--muted-foreground)] mt-1">CUIT + Datos Personales + Screening Inicial (RePET)</p>
-                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: Hasta \$10M</div>
+                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: Hasta $10M</div>
                   </div>
                   
                   <!-- Arrow -->
@@ -339,7 +339,7 @@
                     <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 text-[9px] bg-[var(--border)] text-[var(--muted-foreground)] rounded-full font-bold">Nivel 2</span>
                     <h5 class="font-bold text-xs mt-1">Medio (Operativo)</h5>
                     <p class="text-[10px] text-[var(--muted-foreground)] mt-1">Legajo Simplificado + Declaraciones Juradas Básicas</p>
-                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: \$10M - \$100M</div>
+                    <div class="mt-2 text-xs font-bold text-emerald-500">Cupo: $10M - $100M</div>
                   </div>
 
                   <!-- Arrow -->
@@ -630,7 +630,7 @@
                   </div>
                   <div class="bg-[var(--card)] border border-[var(--border)] p-4 rounded">
                     <div class="flex items-center justify-between mb-2">
-                      <span class="text-xs font-bold text-red-500">ROS (Nomativo)</span>
+                      <span class="text-xs font-bold text-red-500">ROS (Normativo)</span>
                       <span class="text-[10px] text-[var(--muted-foreground)]">Reporte UIF obligado</span>
                     </div>
                     <p class="text-[11px] text-[var(--muted-foreground)]">
@@ -777,7 +777,179 @@
       </section>
 
       <!-- ============================================== -->
-      <!-- TAB 4: ROADMAP & BACKLOG -->
+      <!-- TAB 4: REGULATORY RULES SIMULATOR -->
+      <!-- ============================================== -->
+      <section id="tab-simulator" class="tab-content hidden flex flex-col gap-6">
+        
+        <div class="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6 shadow-sm">
+          <h2 class="text-xl font-bold mb-2">Simulador del Motor de Reglas (C1 / C2)</h2>
+          <p class="text-sm text-[var(--muted-foreground)] max-w-3xl mb-4">
+            Demostración visual de la <strong>Regla R2</strong> (Separar regla estable de parámetro variable) propuesta por Gabriel De Seta. Modifica los datos crudos y parámetros editables sin deploy para ver el impacto normativo en tiempo real.
+          </p>
+
+          <!-- SIMULATOR TABS -->
+          <div class="border-b border-[var(--border)] flex gap-4 mb-6">
+            <button onclick="switchSimScenario('sim-ge')" id="btn-sim-ge" class="sim-tab-btn border-b-2 border-[var(--primary)] pb-2 text-sm font-semibold text-[var(--foreground)]">
+              Caso 1: Grupo Económico y Acceso a Divisas (BCRA)
+            </button>
+            <button onclick="switchSimScenario('sim-park')" id="btn-sim-park" class="sim-tab-btn border-b-2 border-transparent pb-2 text-sm font-semibold text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+              Caso 2: Parking de Activos (CNV)
+            </button>
+          </div>
+
+          <!-- SCENARIO 1: GRUPO ECONOMICO -->
+          <div id="sim-ge" class="sim-scenario flex flex-col gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              
+              <!-- INPUT PANEL -->
+              <div class="lg:col-span-7 flex flex-col gap-5">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Capa 1: Datos Crudos (C1 - Base de Datos)</h3>
+                
+                <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-4 flex flex-col gap-4">
+                  <div>
+                    <div class="flex justify-between mb-1.5 text-xs">
+                      <span>Participación Accionaria de <strong>Cliente A</strong> en <strong>Cliente B</strong></span>
+                      <span class="font-bold text-[var(--primary)]" id="val-share">15%</span>
+                    </div>
+                    <input type="range" min="1" max="100" value="15" class="w-full h-1 bg-[var(--border)] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]" id="input-share" oninput="updateSimGE()">
+                  </div>
+
+                  <div>
+                    <label class="flex items-center gap-3 text-xs cursor-pointer select-none">
+                      <input type="checkbox" id="input-ccl" class="w-4 h-4 rounded border-[var(--border)] text-[var(--primary)] focus:ring-[var(--primary)]" onchange="updateSimGE()">
+                      <span>¿<strong>Cliente B</strong> operó Contado con Liquidación (CCL) hoy?</span>
+                    </label>
+                  </div>
+                </div>
+
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[var(--muted-foreground)] mt-2">Capa 2: Parámetros Normativos (Editables por Compliance Officers sin Deploy)</h3>
+                
+                <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-4 flex flex-col gap-4">
+                  <div>
+                    <div class="flex justify-between mb-1.5 text-xs">
+                      <span>Umbral de Participación para ser considerado <strong>Grupo Económico</strong></span>
+                      <span class="font-bold text-[var(--primary)]" id="val-threshold">10%</span>
+                    </div>
+                    <input type="range" min="5" max="50" value="10" class="w-full h-1 bg-[var(--border)] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]" id="input-threshold" oninput="updateSimGE()">
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-xs mb-1">Entidad Habilitante</label>
+                      <select id="input-entity" class="text-xs bg-[var(--card)] border border-[var(--border)] rounded p-2 w-full text-[var(--foreground)]" onchange="updateSimGE()">
+                        <option value="facimex">Facimex ALyC (Criterio Conservador)</option>
+                        <option value="pisa">PISA (Criterio Flexible)</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="block text-xs mb-1">Días de Bloqueo Automático</label>
+                      <select id="input-days" class="text-xs bg-[var(--card)] border border-[var(--border)] rounded p-2 w-full text-[var(--foreground)]" onchange="updateSimGE()">
+                        <option value="90">90 días</option>
+                        <option value="180" selected>180 días (Por Defecto)</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESULT PANEL -->
+              <div class="lg:col-span-5 flex flex-col gap-5">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Capa 3: Regla Estable & Dictamen Automático</h3>
+                
+                <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <span class="text-xs text-[var(--muted-foreground)]">Regla del Motor:</span>
+                    <p class="text-xs font-semibold mt-1">
+                      "Si la vinculación es de Grupo Económico (Participación &ge; Umbral) y una de las entidades liquida activos contra dólares, la otra pierde el acceso al MULC/Dólar Cable por el período parametrizado."
+                    </p>
+                  </div>
+
+                  <div class="my-6 p-4 rounded-lg text-center bg-amber-500/10 border border-amber-500/30 text-amber-500" id="sim-ge-result-box">
+                    <span class="text-xs block text-[var(--muted-foreground)]" id="sim-ge-result-label">GRUPO ECONÓMICO DETECTADO (Vinculación: 15%)</span>
+                    <span class="text-lg font-bold block mt-1" id="sim-ge-result-value">HABILITADO OPERATIVO (Bajo Monitoreo)</span>
+                  </div>
+
+                  <div class="text-[11px] text-[var(--muted-foreground)] border-t border-[var(--border)] pt-3">
+                    <strong>Trazabilidad de Regla:</strong> Almacenado como <code>Rule: BCRA-GE-MULC-01</code>.
+                    Cualquier cambio de parámetros queda trazado con usuario y marca temporal en el núcleo.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- SCENARIO 2: PARKING -->
+          <div id="sim-park" class="sim-scenario hidden flex flex-col gap-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+              
+              <!-- INPUT PANEL -->
+              <div class="lg:col-span-7 flex flex-col gap-5">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Capa 1: Datos Crudos (C1)</h3>
+                
+                <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-4 flex flex-col gap-4">
+                  <div>
+                    <div class="flex justify-between mb-1.5 text-xs">
+                      <span>Días transcurridos desde la compra del activo</span>
+                      <span class="font-bold text-[var(--primary)]" id="val-park-days">2 días</span>
+                    </div>
+                    <input type="range" min="0" max="7" value="2" class="w-full h-1 bg-[var(--border)] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]" id="input-park-days" oninput="updateSimPark()">
+                  </div>
+
+                  <div>
+                    <label class="block text-xs mb-1">Especie Operada</label>
+                    <select id="input-asset" class="text-xs bg-[var(--card)] border border-[var(--border)] rounded p-2 w-full text-[var(--foreground)]" onchange="updateSimPark()">
+                      <option value="AL30">AL30 (Bono Soberano Pesos)</option>
+                      <option value="GD30">GD30 (Bono Ley NY)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[var(--muted-foreground)] mt-2">Capa 2: Parámetros Normativos (Editables)</h3>
+                
+                <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-4 flex flex-col gap-4">
+                  <div>
+                    <div class="flex justify-between mb-1.5 text-xs">
+                      <span>Parking requerido por CNV (Días Mínimos)</span>
+                      <span class="font-bold text-[var(--primary)]" id="val-park-req">3 días</span>
+                    </div>
+                    <input type="range" min="1" max="5" value="3" class="w-full h-1 bg-[var(--border)] rounded-lg appearance-none cursor-pointer accent-[var(--primary)]" id="input-park-req" oninput="updateSimPark()">
+                  </div>
+                </div>
+              </div>
+
+              <!-- RESULT PANEL -->
+              <div class="lg:col-span-5 flex flex-col gap-5">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-[var(--muted-foreground)]">Capa 3: Regla Estable & Dictamen Automático</h3>
+                
+                <div class="bg-[var(--background)] border border-[var(--border)] rounded-lg p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <span class="text-xs text-[var(--muted-foreground)]">Regla del Motor:</span>
+                    <p class="text-xs font-semibold mt-1">
+                      "Para liquidar un activo adquirido contra pesos en moneda extranjera (ME), debe haber transcurrido la cantidad de días de parking fijados como parámetro."
+                    </p>
+                  </div>
+
+                  <div class="my-6 p-4 rounded-lg text-center bg-red-500/10 border border-red-500/30 text-red-500" id="sim-park-result-box">
+                    <span class="text-xs block text-[var(--muted-foreground)]" id="sim-park-result-label">INFRACCIÓN DE PARKING (2/3 Días)</span>
+                    <span class="text-lg font-bold block mt-1" id="sim-park-result-value">VENTA EN USD BLOQUEADA (Falta parking)</span>
+                  </div>
+
+                  <div class="text-[11px] text-[var(--muted-foreground)] border-t border-[var(--border)] pt-3">
+                    <strong>Trazabilidad de Regla:</strong> Almacenado como <code>Rule: CNV-PARK-01</code>.
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================== -->
+      <!-- TAB 5: ROADMAP & BACKLOG -->
       <!-- ============================================== -->
       <section id="tab-roadmap" class="tab-content hidden flex flex-col gap-6">
         
